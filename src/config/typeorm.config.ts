@@ -9,5 +9,5 @@ export const typeormConfig: TypeOrmModuleOptions = {
   password: 'nestjs',
   database: 'nestjs',
   entities: [Board],
-  synchronize: true,
+  synchronize: true, //insert 한 데이터가 삭제되진 않는다.
 };

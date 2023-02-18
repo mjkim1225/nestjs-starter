@@ -31,31 +31,26 @@ export class BoardService {
     await this.boardRepository.save(board);
     return board;
   }
-  //
-  // getAllBoards(): Board[] {
-  //   return this.boards;
-  // }
-  //
 
-  //   this.boards.push(board);
-  //   return board;
-  // }
-  //
-  // getBoardById(id: number): Board {
-  //   const found = this.boards.find((board) => board.id == id);
-  //   if (!found) {
-  //     throw new NotFoundException(`Can't find board with id ${id}.`); //nest js 내부 exception
-  //   }
-  //   return found;
-  // }
-  //
-  // deleteBoard(id: number): void {
-  //   this.boards = this.boards.filter((board) => board.id !== id); //???????????????????????
-  // }
-  //
-  // updateBoardStatus(id: number, status: BoardStatus): Board {
-  //   const board = this.getBoardById(id);
-  //   board.status = status;
-  //   return board;
-  // }
+  async getAllBoards(): Promise<Board[]> {
+    return this.boardRepository.find();
+  }
+
+  async deleteBoard(id: number): Promise<void> {
+    const result = await this.boardRepository.delete(id);
+    // console.log(result); //-> DeleteResult { raw: [], affected: 1 }
+    // remove: 데이터가 있는지 확인 후 지워야하고, delete: 데이터가 없으면 affected:0, 있으면 1
+    if (result.affected === 0) {
+      throw new NotFoundException(`Can't find board with id ${id}.`); //nest js 내부 exception
+    }
+  }
+
+  async updateBoardStatus(id: number, status: BoardStatus): Promise<Board> {
+    const board = await this.getBoardById(id);
+
+    board.status = status;
+    await this.boardRepository.save(board);
+
+    return board;
+  }
 }

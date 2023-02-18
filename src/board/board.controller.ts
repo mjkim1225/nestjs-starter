@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
   UsePipes,
@@ -21,32 +22,32 @@ export class BoardController {
   //service dependency injection
   // 접근제한자 private 를 사용하면 이 파라미터는 암묵적으로 프로퍼티로 설정이 됨
 
-  // @Get()
-  // getAllBoard(): Board[] {
-  //   return this.boardService.getAllBoards();
-  // }
-  //
+  @Get()
+  getAllBoard(): Promise<Board[]> {
+    return this.boardService.getAllBoards();
+  }
+
   @Post()
   @UsePipes(ValidationPipe)
   createBoard(@Body() createBoardDto: CreateBoardDto): Promise<Board> {
     return this.boardService.createBoard(createBoardDto);
   }
-  //
+
   @Get('/:id')
   getBoardById(@Param('id') id: number): Promise<Board> {
     return this.boardService.getBoardById(id);
   }
-  //
-  // @Delete('/:id')
-  // deleteBoard(@Param('id') id: number): void {
-  //   return this.boardService.deleteBoard(id);
-  // }
-  //
-  // @Patch('/:id/status')
-  // updateBoardStatus(
-  //   @Param('id') id: number,
-  //   @Body('status', BoardStatusValidationPipe) status: BoardStatus,
-  // ): Board {
-  //   return this.boardService.updateBoardStatus(id, status);
-  // }
+
+  @Delete('/:id')
+  deleteBoard(@Param('id', ParseIntPipe) id: number): Promise<void> {
+    return this.boardService.deleteBoard(id);
+  }
+
+  @Patch('/:id/status')
+  updateBoardStatus(
+    @Param('id', ParseIntPipe) id: number,
+    @Body('status', BoardStatusValidationPipe) status: BoardStatus,
+  ): Promise<Board> {
+    return this.boardService.updateBoardStatus(id, status);
+  }
 }
