@@ -3,6 +3,7 @@ import { BoardStatus } from './board-status.enum';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BoardRepository } from './board.repository';
 import { Board } from './board.entity';
+import { CreateBoardDto } from './pipes/board.create-dto';
 
 @Injectable()
 export class BoardService {
@@ -18,19 +19,24 @@ export class BoardService {
     }
     return found;
   }
+
+  async createBoard(createBoardDto: CreateBoardDto): Promise<Board> {
+    const { title, description } = createBoardDto;
+    const board = this.boardRepository.create({
+      title,
+      description,
+      status: BoardStatus.PUBLIC,
+    });
+
+    await this.boardRepository.save(board);
+    return board;
+  }
   //
   // getAllBoards(): Board[] {
   //   return this.boards;
   // }
   //
-  // createBoard(createBoardDto: CreateBoardDto): Board {
-  //   const { title, description } = createBoardDto;
-  //   const board = {
-  //     id: this.boards.length,
-  //     title,
-  //     description,
-  //     status: BoardStatus.PUBLIC,
-  //   };
+
   //   this.boards.push(board);
   //   return board;
   // }
