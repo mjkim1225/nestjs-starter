@@ -1,5 +1,6 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { Board } from '../board/model/board.entity';
+import { Users } from '../auth/model/user.entity';
 
 export const typeormConfig: TypeOrmModuleOptions = {
   type: 'postgres',
@@ -8,6 +9,6 @@ export const typeormConfig: TypeOrmModuleOptions = {
   username: 'nestjs',
   password: 'nestjs',
   database: 'nestjs',
-  entities: [Board],
+  entities: [Board, Users],
   synchronize: true, //insert 한 데이터가 삭제되진 않는다.
 };
