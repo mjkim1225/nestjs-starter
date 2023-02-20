@@ -3,8 +3,12 @@ server:
 
 db:
   type: 'postgres'
+  host: 'localhost'
   port: 15432
+  username: 'nestjs'
+  password: 'nestjs'
   database: 'nestjs'
+  synchronize: true
 
 jwt:
   expiredIn: 3600

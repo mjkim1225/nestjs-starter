@@ -6,13 +6,15 @@ import { UserRepository } from './repository/user.repository';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './jwt/jwt.strategy';
+import * as config from 'config';
 
+const { expiredIn, secret } = config.get('jwt');
 @Module({
   imports: [
     JwtModule.register({
-      secret: 'secret-key', // secret key
+      secret: secret, // secret key
       signOptions: {
-        expiresIn: 60 * 60, // 유효 시간
+        expiresIn: expiredIn, // 유효 시간
       },
     }),
     PassportModule.register({ defaultStrategy: 'jwt' }),
