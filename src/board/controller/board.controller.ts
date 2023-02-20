@@ -28,8 +28,8 @@ export class BoardController {
   // 접근제한자 private 를 사용하면 이 파라미터는 암묵적으로 프로퍼티로 설정이 됨
 
   @Get()
-  getAllBoard(): Promise<Board[]> {
-    return this.boardService.getAllBoards();
+  getAllBoard(@GetUser() user: Users): Promise<Board[]> {
+    return this.boardService.getAllBoards(user);
   }
 
   @Post()
