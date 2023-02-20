@@ -45,8 +45,13 @@ export class BoardService {
     return board;
   }
 
-  async deleteBoard(id: number): Promise<void> {
-    const result = await this.boardRepository.delete(id);
+  async deleteBoard(id: number, user: Users): Promise<void> {
+    const deleteQuery = this.boardRepository
+      .createQueryBuilder('board')
+      .delete()
+      .where('userId = :userId', { userId: user.id })
+      .andWhere('id = :id', { id: id });
+    const result = await deleteQuery.execute();
     // console.log(result); //-> DeleteResult { raw: [], affected: 1 }
     // remove: 데이터가 있는지 확인 후 지워야하고, delete: 데이터가 없으면 affected:0, 있으면 1
     if (result.affected === 0) {
