@@ -1,0 +1,8 @@
+server:
+  port: 3002
+
+db:
+  synchronize: false
+
+jwt:
+  secret: 'production-secret-key'

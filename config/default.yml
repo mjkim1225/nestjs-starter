@@ -1,0 +1,11 @@
+server:
+  port: 3000
+
+db:
+  type: 'postgres'
+  port: 15432
+  database: 'nestjs'
+
+jwt:
+  expiredIn: 3600
+  secret: 'secret-key'
