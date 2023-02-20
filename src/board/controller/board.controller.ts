@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Logger,
   Param,
   ParseIntPipe,
   Patch,
@@ -23,12 +24,14 @@ import { Users } from '../../auth/model/user.entity';
 @Controller('board')
 @UseGuards(AuthGuard())
 export class BoardController {
+  private logger = new Logger('Board Controller');
   constructor(private boardService: BoardService) {}
   //service dependency injection
   // 접근제한자 private 를 사용하면 이 파라미터는 암묵적으로 프로퍼티로 설정이 됨
 
   @Get()
   getAllBoard(@GetUser() user: Users): Promise<Board[]> {
+    this.logger.verbose(`User ${user.username} is trying to get all boards.`);
     return this.boardService.getAllBoards(user);
   }
 
